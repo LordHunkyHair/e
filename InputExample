@@ -1,0 +1,33 @@
+#write a program to convert pounds to kilograms
+#write a function to get a positive number from the user
+def get_positive_float_input():
+  #ask user to enter their weight in pounds
+  #if bad input, reprompt user
+  user_weight = 0
+  while(True):
+    try:
+      user_weight = float(input("Enter your weight in pounds:"))
+      #check if user_weight > 0. If not, reprompt user
+      if user_weight <= 0:
+        print("Error: Please enter a number greater than 0")
+        continue
+      else:
+        break
+    except:
+      print("Error: Please enter a number greater then 0")
+      
+  return user_weight
+
+#INPUT
+#get weight from function
+user_weight = get_positive_float_input()
+
+#PROCESSING
+#use a conversion to convert pounds to kilograms: 2.205lbs = 1kg
+lbs_to_kg_conversion = 2.205
+user_weight_in_kg = user_weight / lbs_to_kg_conversion
+
+#OUTPUT
+#print output to the user
+##You weight ____ kilograms
+print(f"You weigh {user_weight_in_kg:.2f}kgs.")
