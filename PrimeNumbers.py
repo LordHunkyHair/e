@@ -1,7 +1,11 @@
 def main():
     for number in range(1,100):
-        number += 1
-        if number % 2 > 0:
-            if number:
-                print(number)
+        mod = 1
+        for mod in range(2,number+1):
+            if number % mod > 0:
+                continue
+            if number % mod == 0 and number != mod:
+                break
+            else:
+                    print(number)
 main()
