@@ -10,6 +10,5 @@ def main():
         except:
             continue
     if due < 0:
-        print(f"You are owed {due*-1} cents")
-
+        print(f"You are owed {due * -1} cents")
 main()

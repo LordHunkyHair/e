@@ -7,5 +7,5 @@ def main():
             if number % mod == 0 and number != mod:
                 break
             else:
-                    print(number)
+                print(number)
 main()
