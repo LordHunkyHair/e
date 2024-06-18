@@ -54,4 +54,13 @@ def main():
     car_data = car_info.split(",")
     print(car_data)
 
+    #get the individual items from the resulting list
+    car_make = car_data[0]
+    car_model = car_data[1]
+    car_year = int(car_data[2])
+    car_value = float(car_data[3])
+    car_engine = float(car_data[4])
+
+    print(f"\nCar Information:\nMake: {car_make}\nModel: {car_model}\nYear: {car_year}\nValue: {car_value}\nEngine Size: {car_engine}")
+
 main()
