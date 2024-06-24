@@ -1,14 +1,29 @@
-import random
-map = [
+map1 = [
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"]
     ]
-def draw_map():
+map2 = [
+        ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
+        ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
+        ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
+        ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
+        ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"]
+    ]
+
+def draw_map1():
     #draw map
-    for y in map:
+    for y in map1:
+        draw = ""
+        for x in y:
+            draw += x
+        print(f"{draw}")
+
+def draw_map2():
+    #draw map
+    for y in map2:
         draw = ""
         for x in y:
             draw += x
@@ -18,53 +33,99 @@ def main():
     x = 0
     y = 0
     z = 0
+    success = 0
     player_x = 0
     player_y = 0
     old_player_x = 0
     old_player_y = 0
-    map_player = list(map)
-    player_position = [player_y][player_x]
     player = "P"
-    map_player[player_y][player_x] = f"[{player}]"
-    enemy_x = 0
-    enemy_y = 4
-    old_enemy_x = 0
-    old_enemy_y = 0
-    map_enemy = list(map)
-    enemy_position = [enemy_y][enemy_x]
-    enemy = "E"
-    map_enemy[enemy_y][enemy_x] = f"[{enemy}]"
+    map1_player = list(map1)
+    map1_player[player_y][player_x] = f"[{player}]"
+    map2_player = list(map2)
+    map2_player[player_y][player_x] = f"[{player}]"
+    goal_x = 4
+    goal_y = 4
+    goal = "G"
+    map1_goal = list(map1)
+    map1_goal[goal_y][goal_x] = f"[{goal}]"
     #draw map
-    #player movement and enemy movement
-    draw_map()
-    while z == 0:
-        try:
-            move = input(f"Please put in you movement: ")
-            if move == "w":
-                old_player_y = player_y
-                player_y -=1
-                map_player[player_y][player_x] = f"[{player}]"
-                map_player[old_player_y][player_x] = f"[ ]"
-                draw_map()
-            if move == "a":
-                old_player_x = player_x
-                player_x -=1
-                map_player[player_y][player_x] = f"[{player}]"
-                map_player[player_y][old_player_x] = f"[ ]"
-                draw_map()
-            if move == "s":
-                old_player_y = player_y
-                player_y +=1
-                map_player[player_y][player_x] = f"[{player}]"
-                map_player[old_player_y][player_x] = f"[ ]"
-                draw_map()
-            if move == "d":
-                old_player_x = player_x
-                player_x +=1
-                map_player[player_y][player_x] = f"[{player}]"
-                map_player[player_y][old_player_x] = f"[ ]"
-                draw_map()
-        except:
-            continue
-    
+    #player movement and goal location
+    if success == 0:
+        draw_map1()
+        while z == 0:
+            try:
+                if goal_x == player_x and goal_y == player_y:
+                    success += 1
+                    print()
+                    break
+                move = input(f"Please put in you movement: ")
+                if move == "w":
+                    old_player_y = player_y
+                    player_y -=1
+                    map1_player[player_y][player_x] = f"[{player}]"
+                    map1_player[old_player_y][player_x] = f"[ ]"
+                    draw_map1()
+                if move == "a":
+                    old_player_x = player_x
+                    player_x -=1
+                    map1_player[player_y][player_x] = f"[{player}]"
+                    map1_player[player_y][old_player_x] = f"[ ]"
+                    draw_map1()
+                if move == "s":
+                    old_player_y = player_y
+                    player_y +=1
+                    if player_y > 4:
+                        player_y = 0
+                    map1_player[player_y][player_x] = f"[{player}]"
+                    map1_player[old_player_y][player_x] = f"[ ]"
+                    draw_map1()
+                if move == "d":
+                    old_player_x = player_x
+                    player_x +=1
+                    if player_x > 4:
+                        player_x = 0
+                    map1_player[player_y][player_x] = f"[{player}]"
+                    map1_player[player_y][old_player_x] = f"[ ]"
+                    draw_map1()
+            except:
+                continue
+    if success == 1:
+        draw_map2()
+        player_x = 0
+        player_y = 0
+        old_player_x = 0
+        old_player_y = 0
+        while z == 0:
+            try:
+                move = input(f"Please put in you movement: ")
+                if move == "w":
+                    old_player_y = player_y
+                    player_y -=1
+                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[old_player_y][player_x] = f"[ ]"
+                    draw_map2()
+                if move == "a":
+                    old_player_x = player_x
+                    player_x -=1
+                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[player_y][old_player_x] = f"[ ]"
+                    draw_map2()
+                if move == "s":
+                    old_player_y = player_y
+                    player_y +=1
+                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[old_player_y][player_x] = f"[ ]"
+                    draw_map2()
+                if move == "d":
+                    old_player_x = player_x
+                    player_x +=1
+                    if player_y > 4:
+                        player_y = 0
+                    if player_x > 4:
+                        player_x = 0
+                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[player_y][old_player_x] = f"[ ]"
+                    draw_map2()
+            except:
+                continue
 main()
