@@ -1,4 +1,13 @@
 import time
+class color:
+        default = "\033[0m"
+        red =  "\033[91m"
+        yellow = "\033[93m"
+        green = "\033[32m"
+        blue = "\033[94m"
+        cyan = "\033[96m"
+        purple = "\033[95m"
+
 map1 = [
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
         ["[ ]", "[ ]", "[ ]", "[ ]", "[ ]"],
@@ -22,6 +31,7 @@ def draw_map1():
             draw += x
         print(f"{draw}")
 
+
 def draw_map2():
     #draw map
     for y in map2:
@@ -29,6 +39,11 @@ def draw_map2():
         for x in y:
             draw += x
         print(f"{draw}")
+
+def blocking():
+    #block player
+    print("Blocked")
+    draw_map1()
 
 def main():
     x = 0
@@ -41,15 +56,20 @@ def main():
     old_player_y = 0
     player = "P"
     map1_player = list(map1)
-    map1_player[player_y][player_x] = f"[{player}]"
+    map1_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
     map2_player = list(map2)
-    map2_player[player_y][player_x] = f"[{player}]"
+    map2_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
     goal_x = 4
     goal_y = 4
     goal = "G"
     map1_goal = list(map1)
-    map1_goal[goal_y][goal_x] = f"[{goal}]"
+    map1_goal[goal_y][goal_x] = f"[{color.green}{goal}{color.default}]"
     gravity = 0
+    block_x = 3
+    block_y = 3
+    block = "B"
+    map1_block = list(map1)
+    map1_block[block_y][block_x] = f"[{color.purple}{block}{color.default}]"
     while(True):
         type = input(f"Do you want gravity, y/n?: ")
         if type == "y":
@@ -68,9 +88,12 @@ def main():
             try:
                 if gravity == 1:
                     while player_y != 4:
+                        if player_y+1 == block_y and player_x == block_x:
+                            blocking()
+                            break
                         old_player_y = player_y
                         player_y += 1
-                        map1_player[player_y][player_x] = f"[{player}]"
+                        map1_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
                         map1_player[old_player_y][player_x] = f"[ ]"
                         print(f"Fall")
                         time.sleep(0.5)
@@ -81,37 +104,53 @@ def main():
                     break
                 move = input(f"Please put in you movement: ")
                 if move == "w":
-                    old_player_y = player_y
-                    player_y -=1
-                    if player_y < 0:
-                        player_y = 4
-                    map1_player[player_y][player_x] = f"[{player}]"
-                    map1_player[old_player_y][player_x] = f"[ ]"
-                    draw_map1()
+                    if player_y-1 == block_y and player_x == block_x:
+                        blocking()
+                        continue
+                    else:
+                        old_player_y = player_y
+                        player_y -=1
+                        if player_y < 0:
+                            player_y = 4
+                        map1_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
+                        map1_player[old_player_y][player_x] = f"[ ]"
+                        draw_map1()
                 if move == "a":
-                    old_player_x = player_x
-                    player_x -=1
-                    if player_x < 0:
-                        player_x = 4
-                    map1_player[player_y][player_x] = f"[{player}]"
-                    map1_player[player_y][old_player_x] = f"[ ]"
-                    draw_map1()
+                    if player_y == block_y and player_x-1 == block_x:
+                        blocking()
+                        continue
+                    else:
+                        old_player_x = player_x
+                        player_x -=1
+                        if player_x < 0:
+                            player_x = 4
+                        map1_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
+                        map1_player[player_y][old_player_x] = f"[ ]"
+                        draw_map1()
                 if move == "s":
-                    old_player_y = player_y
-                    player_y +=1
-                    if player_y > 4:
-                        player_y = 0
-                    map1_player[player_y][player_x] = f"[{player}]"
-                    map1_player[old_player_y][player_x] = f"[ ]"
-                    draw_map1()
+                    if player_y+1 == block_y and player_x == block_x:
+                        blocking()
+                        continue
+                    else:
+                        old_player_y = player_y
+                        player_y +=1
+                        if player_y > 4:
+                            player_y = 0
+                        map1_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
+                        map1_player[old_player_y][player_x] = f"[ ]"
+                        draw_map1()
                 if move == "d":
-                    old_player_x = player_x
-                    player_x +=1
-                    if player_x > 4:
-                        player_x = 0
-                    map1_player[player_y][player_x] = f"[{player}]"
-                    map1_player[player_y][old_player_x] = f"[ ]"
-                    draw_map1()
+                    if player_y == block_y and player_x+1 == block_x:
+                        blocking()
+                        continue
+                    else:
+                        old_player_x = player_x
+                        player_x +=1
+                        if player_x > 4:
+                            player_x = 0
+                        map1_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
+                        map1_player[player_y][old_player_x] = f"[ ]"
+                        draw_map1()
             except:
                 continue
     if success == 1:
@@ -124,44 +163,59 @@ def main():
             try:
                 if gravity == 1:
                     while player_y != 4:
+                        if player_y+1 == block_y and player_x == block_x:
+                            blocking()
+                            break
                         old_player_y = player_y
                         player_y += 1
-                        map2_player[player_y][player_x] = f"[{player}]"
+                        map2_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
                         map2_player[old_player_y][player_x] = f"[ ]"
                         print(f"Fall")
                         time.sleep(0.5)
                         draw_map2()
                 move = input(f"Please put in you movement: ")
                 if move == "w":
+                    if player_y-1 == block_y and player_x == block_x:
+                        blocking()
+                        continue
                     old_player_y = player_y
                     player_y -=1
                     if player_y < 0:
                         player_y = 4
-                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
                     map2_player[old_player_y][player_x] = f"[ ]"
                     draw_map2()
                 if move == "a":
+                    if player_y == block_y and player_x-1 == block_x:
+                        blocking()
+                        continue
                     old_player_x = player_x
                     player_x -=1
                     if player_x < 0:
                         player_x = 4
-                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
                     map2_player[player_y][old_player_x] = f"[ ]"
                     draw_map2()
                 if move == "s":
+                    if player_y+1 == block_y and player_x == block_x:
+                        blocking()
+                        continue
                     old_player_y = player_y
                     player_y +=1
                     if player_y > 4:
                         player_y = 0
-                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
                     map2_player[old_player_y][player_x] = f"[ ]"
                     draw_map2()
                 if move == "d":
+                    if player_y == block_y and player_x+1 == block_x:
+                        blocking()
+                        continue
                     old_player_x = player_x
                     player_x +=1
                     if player_x > 4:
                         player_x = 0
-                    map2_player[player_y][player_x] = f"[{player}]"
+                    map2_player[player_y][player_x] = f"[{color.red}{player}{color.default}]"
                     map2_player[player_y][old_player_x] = f"[ ]"
                     draw_map2()
             except:
